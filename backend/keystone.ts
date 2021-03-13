@@ -9,6 +9,7 @@ import {
 } from "@keystone-next/keystone/session";
 import "dotenv/config";
 import { insertSeedData } from "./seed-data";
+import { sendPasswordResetEmail } from "./lib/mail";
 
 const databaseURL =
   process.env.DATABASE_URL ||
@@ -29,6 +30,7 @@ const { withAuth } = createAuth({
   passwordResetLink: {
     async sendToken(args) {
       console.log(args);
+      await sendPasswordResetEmail(args.token, args.identity);
     },
   },
 });
